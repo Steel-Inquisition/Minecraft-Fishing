@@ -7,17 +7,18 @@ let villagerImgEl = document.getElementById("villager-img");
 let fishBtnEl = document.getElementById("fish-btn");
 let resultImgEl = document.getElementById("result-img");
 let codSpanEl = document.getElementById("cod-span");
-let salmonSpanEl = document.getElementById("salmon-span");
-let tropicalSpanEl = document.getElementById("tropical-span");
-let pufferSpanEl = document.getElementById("puffer-span");
 
 // Global (FOR NOW)
-let character;
+let numSalmon = 0;
+let numTropical = 0;
+let numPuffer = 0;
+let numCod = 0;
 
 // Fish Event
 fishBtnEl.addEventListener("click", catchFish);
 
 function catchFish() {
+
   if (character === "steve") {
     // STEVE PROBABILITIES: cod (70%), salmon (20%), tropical (5%), puffer (5%)
     simulateCatch(0.7, 0.9, 0.95);
@@ -32,39 +33,24 @@ function catchFish() {
 
 function simulateCatch(catchCodPercent, catchSalmonPercent, catchTropicalPercent) {
   let randNum = Math.random();
-  let fish;
   let type;
-  let numCod = 0;
-  let numSalmon = 0;
-  let numTropical = 0;
-  let numPuffer = 0;
 
   if (randNum < catchCodPercent) {
-    fish = "Raw-Cod";
-    type = "cod";
-    numCod += gainFish(type);
-    // codSpanEl.innerHTML = numCod; TAKE THIS TO gainFish later on.
+    type = "Cod";
+    numCod++;
   } else if (randNum < catchSalmonPercent) {
-    fish = "Raw-Salmon";
-    type = "salmon";
-    numSalmon += gainFish(type);
+    type = "Salmon";
+    numSalmon++;
   } else if (randNum < catchTropicalPercent) {
-    fish = "Tropical-Fish";
-    type = "tropical";
-    numTropical += gainFish(type);
+    type = "Tropical";
+    numTropical++;
   } else {
-    fish = "Pufferfish";
-    type = "puffer";
-    numPuffer += gainFish(type);
+    type = "Puffer";
+    numPuffer++;
   }
 
-  resultImgEl.src = "img/" + fish + '.png';
-
-  console.log(numCod);
-}
-
-function gainFish() {
-
+  resultImgEl.src = "img/" + type + '.png';
+  document.getElementById(type + "-span").innerHTML = eval("num" + type);
 }
 
 // Character Select
@@ -74,17 +60,17 @@ villagerImgEl.addEventListener("click", selectVillager);
 
 function selectSteve() {
   selectCharacters("steve", "alex", "villager");
-  character = "steve";
+  return character = "steve";
 }
 
 function selectAlex() {
   selectCharacters("alex", "steve", "villager");
-  character = "alex";
+  return character = "alex";
 }
 
 function selectVillager() {
   selectCharacters("villager", "steve", "alex");
-  character = "villager";
+  return character = "villager";
 }
 
 function selectCharacters(character, removeClass1, removeClass2) {
